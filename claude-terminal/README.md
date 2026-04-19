@@ -2,7 +2,7 @@
 
 A secure, web-based terminal with Claude Code CLI pre-installed for Home Assistant.
 
-![Claude Terminal Screenshot](https://github.com/heytcass/home-assistant-addons/raw/main/claude-terminal/screenshot.png)
+![Claude Terminal Screenshot](https://github.com/7c/home-assistant-addons/raw/main/claude-terminal/screenshot.png)
 
 *Claude Terminal running in Home Assistant*
 
@@ -163,7 +163,7 @@ For detailed usage instructions, see the [documentation](DOCS.md).
 ## Version History
 
 ### v2.3.0 (Current) - Claude Code 2.1.x Compatibility
-- **Fix**: Claude Code 2.1.x no longer exits silently when launched as root in the add-on ([#87](https://github.com/heytcass/home-assistant-addons/issues/87))
+- **Fix**: Claude Code 2.1.x no longer exits silently when launched as root in the add-on ([upstream #87](https://github.com/heytcass/home-assistant-addons/issues/87))
   - Sets `ENV IS_SANDBOX=1` in the Dockerfile so every process inherits it from PID 1 (tells Claude Code it's running in a trusted containerized environment)
 - **Change**: `--dangerously-skip-permissions` is now passed by default for all pre-built launch paths (auto-launch, session picker: new / continue / resume)
   - The "Custom Claude command" menu option still lets you supply your own flags
