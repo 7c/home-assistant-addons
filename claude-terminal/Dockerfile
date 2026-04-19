@@ -30,6 +30,13 @@ RUN npm install -g @anthropic-ai/claude-code@latest \
 # ha-mcp requires Python 3.13+, uv handles this automatically
 RUN apk add --no-cache uv
 
+# Tell Claude Code this is a trusted containerized (sandboxed) environment.
+# Required since Claude Code 2.1.x refuses to run with --dangerously-skip-permissions
+# as root unless IS_SANDBOX=1 is set. HA add-ons always run as root inside isolated
+# containers, so this is the documented escape hatch for this scenario.
+# See: https://github.com/heytcass/home-assistant-addons/issues/87
+ENV IS_SANDBOX=1
+
 # Create directory for Claude configuration and set working directory
 RUN mkdir -p /config/claude-config
 WORKDIR /config

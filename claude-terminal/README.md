@@ -162,7 +162,13 @@ For detailed usage instructions, see the [documentation](DOCS.md).
 
 ## Version History
 
-### v1.9.0 (Current) - npm Installation Fix
+### v2.3.0 (Current) - Claude Code 2.1.x Compatibility
+- **Fix**: Claude Code 2.1.x no longer exits silently when launched as root in the add-on ([#87](https://github.com/heytcass/home-assistant-addons/issues/87))
+  - Sets `ENV IS_SANDBOX=1` in the Dockerfile so every process inherits it from PID 1 (tells Claude Code it's running in a trusted containerized environment)
+- **Change**: `--dangerously-skip-permissions` is now passed by default for all pre-built launch paths (auto-launch, session picker: new / continue / resume)
+  - The "Custom Claude command" menu option still lets you supply your own flags
+
+### v1.9.0 - npm Installation Fix
 - **Reverted to npm installation**: Fixes musl binary compatibility issues on Alpine Linux
 - Native installer binary required musl 1.2.6+ which Alpine 3.21 doesn't ship
 

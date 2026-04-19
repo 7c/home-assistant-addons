@@ -6,6 +6,13 @@
 
 TMUX_SESSION_NAME="claude"
 
+# Default flags for every Claude invocation launched by this picker.
+# --dangerously-skip-permissions is safe because the HA add-on runs in an
+# isolated container and IS_SANDBOX=1 is baked into the image.
+# Users who want a different behavior can still use the "Custom Claude
+# command" menu option (4) to pass their own flags.
+CLAUDE_DEFAULT_FLAGS="--dangerously-skip-permissions"
+
 # Colors
 TERRACOTTA='\033[38;2;217;119;87m'
 WHITE='\033[1;37m'
@@ -89,7 +96,7 @@ launch_claude_new() {
     fi
 
     sleep 1
-    exec tmux new-session -s "$TMUX_SESSION_NAME" 'claude'
+    exec tmux new-session -s "$TMUX_SESSION_NAME" "claude $CLAUDE_DEFAULT_FLAGS"
 }
 
 launch_claude_continue() {
@@ -100,7 +107,7 @@ launch_claude_continue() {
     fi
 
     sleep 1
-    exec tmux new-session -s "$TMUX_SESSION_NAME" 'claude -c'
+    exec tmux new-session -s "$TMUX_SESSION_NAME" "claude $CLAUDE_DEFAULT_FLAGS -c"
 }
 
 launch_claude_resume() {
@@ -111,7 +118,7 @@ launch_claude_resume() {
     fi
 
     sleep 1
-    exec tmux new-session -s "$TMUX_SESSION_NAME" 'claude -r'
+    exec tmux new-session -s "$TMUX_SESSION_NAME" "claude $CLAUDE_DEFAULT_FLAGS -r"
 }
 
 launch_claude_custom() {
@@ -144,7 +151,7 @@ launch_auth_helper() {
 
 launch_bash_shell() {
     echo "🐚 Dropping to bash shell..."
-    echo "Tip: Run 'tmux new-session -A -s claude \"claude\"' to start with persistence"
+    echo "Tip: Run 'tmux new-session -A -s claude \"claude $CLAUDE_DEFAULT_FLAGS\"' to start with persistence"
     sleep 1
     exec bash
 }

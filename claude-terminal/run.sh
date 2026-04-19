@@ -277,8 +277,10 @@ get_claude_launch_command() {
     fi
 
     if [ "$auto_launch_claude" = "true" ]; then
-        # Use tmux for session persistence - attach to existing or create new
-        echo "${welcome_prefix}tmux new-session -A -s claude 'claude'"
+        # Use tmux for session persistence - attach to existing or create new.
+        # --dangerously-skip-permissions is safe here because the add-on runs
+        # in an isolated HA container (IS_SANDBOX=1 is set in the Dockerfile).
+        echo "${welcome_prefix}tmux new-session -A -s claude 'claude --dangerously-skip-permissions'"
     else
         # Session picker manages its own tmux sessions internally,
         # so do NOT wrap it in tmux (that would cause nested tmux errors)
@@ -287,7 +289,7 @@ get_claude_launch_command() {
         else
             # Fallback if session picker is missing
             bashio::log.warning "Session picker not found, falling back to auto-launch"
-            echo "${welcome_prefix}tmux new-session -A -s claude 'claude'"
+            echo "${welcome_prefix}tmux new-session -A -s claude 'claude --dangerously-skip-permissions'"
         fi
     fi
 }
